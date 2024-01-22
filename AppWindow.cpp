@@ -2,13 +2,15 @@
 
 void AppWindow::onCreate()
 {
+	Window::onCreate();
 }
 
 void AppWindow::onUpdate()
 {
+	Window::onUpdate();
 }
 
 void AppWindow::onDestroy()
 {
-	this->Window::onDestroy();
+	Window::onDestroy();
 }

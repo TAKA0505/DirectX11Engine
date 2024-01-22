@@ -74,13 +74,8 @@ bool Window::init()
 	::ShowWindow(m_hwnd, SW_SHOW);
 	::UpdateWindow(m_hwnd);
 
-
-
-
 	//set this flag to true to indicate that the window is initialized and running
 	m_is_run = true;
-
-
 
 	return true;
 }

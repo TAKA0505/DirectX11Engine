@@ -1,24 +1,22 @@
 #include "Window.h"
 
-//Window* window=nullptr;
+//Window *window = nullptr;
 
 Window::Window()
 {
 
 }
 
-
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wparam,LPARAM lparam)
 {
-	//GetWindowLong(hwnd,)
 	switch (msg)
 	{
 	case WM_CREATE:
 	{
-		// Event fired when the window is created
-		// collected here..
-		Window* window = (Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
-		// .. and then stored for later lookup
+		//event fired when the window is created
+		//collect here..
+		Window *window = (Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
+		//..and than stored for later lookup
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);
 		window->onCreate();
 		break;
@@ -26,21 +24,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 	case WM_DESTROY:
 	{
-		// Event fired when the window is destroyed
-		Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		//event fired when the window is destroyed
+		Window *window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		window->onDestroy();
 		::PostQuitMessage(0);
 		break;
 	}
-
-
 	default:
-		return ::DefWindowProc(hwnd, msg, wparam, lparam);
+		return DefWindowProc(hwnd, msg, wparam, lparam);
 	}
 
 	return NULL;
 }
-
 
 bool Window::init()
 {
@@ -94,13 +89,12 @@ bool Window::broadcast()
 {
 	MSG msg;
 
-
-	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0)
+	while (::PeekMessage(&msg,NULL,0,0,PM_REMOVE)>0)
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
-
+	
 	this->onUpdate();
 
 	Sleep(1);
@@ -108,19 +102,20 @@ bool Window::broadcast()
 	return true;
 }
 
-
 bool Window::release()
 {
-	//Destroy the window
-	if (!::DestroyWindow(m_hwnd))
+	if (::DestroyWindow(m_hwnd))
 		return false;
-
 	return true;
 }
 
 bool Window::isRun()
 {
 	return m_is_run;
+}
+
+Window::~Window()
+{
 }
 
 void Window::onCreate()
@@ -134,8 +129,4 @@ void Window::onUpdate()
 void Window::onDestroy()
 {
 	m_is_run = false;
-}
-
-Window::~Window()
-{
 }

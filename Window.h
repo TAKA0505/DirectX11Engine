@@ -4,19 +4,20 @@
 class Window
 {
 public:
-	Window() = default;
+	Window();
 	//initialize the window
 	bool init();
 	bool broadcast();
 	//release the window
 	bool release();
 	bool isRun();
-	~Window() = default;
 
 	//Events
 	virtual void onCreate();
 	virtual void onUpdate();
 	virtual void onDestroy();
+
+	~Window();
 protected:
 	HWND m_hwnd;
 	bool m_is_run;

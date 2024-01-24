@@ -12,6 +12,9 @@ public:
 	bool release();
 	bool isRun();
 
+	RECT getClientWindowRect();
+	void setHWND(HWND hWnd);
+
 	//Events
 	virtual void onCreate();
 	virtual void onUpdate();

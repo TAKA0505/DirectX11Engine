@@ -1,4 +1,6 @@
 #include "Graphics.h"
+#include "SwapChain.h"
+
 
 Graphics::Graphics()
 {
@@ -43,12 +45,18 @@ bool Graphics::init()
     if (FAILED(hr))
         return false;
 
+    p_device->QueryInterface(__uuidof(IDXGIDevice),reinterpret_cast<void**>(&p_dxgi_device));
+    p_dxgi_device->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&p_dxgi_adapter));
+    p_dxgi_adapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&p_dxgi_factory));
     return true;
 }
 
 bool Graphics::release()
 {
     p_device->Release();
+    p_dxgi_device->Release();
+    p_dxgi_adapter->Release();
+    p_dxgi_factory->Release();
     p_context->Release();
     return true;
 }
@@ -61,4 +69,9 @@ Graphics* Graphics::Get()
 {
     static Graphics engine;
     return &engine;
+}
+
+SwapChain* Graphics::createSwapChain()
+{
+    return new SwapChain();
 }

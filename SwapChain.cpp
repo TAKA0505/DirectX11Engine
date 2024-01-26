@@ -8,7 +8,7 @@ SwapChain::SwapChain()
 
 bool SwapChain::init(HWND hWnd, UINT width, UINT height)
 {
-    IDXGIDevice *device = Graphics::Get()->p_dxgi_device;
+    ID3D11Device *device = Graphics::Get()->p_device;
 
     DXGI_SWAP_CHAIN_DESC desc;
     ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));
@@ -30,6 +30,18 @@ bool SwapChain::init(HWND hWnd, UINT width, UINT height)
     if (FAILED(hr))
         return false;
 
+    ID3D11Texture2D *buffer = nullptr;
+    hr = p_swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&buffer));
+
+    if (FAILED(hr))
+        return false;
+
+    hr = device->CreateRenderTargetView(buffer,NULL,&p_render_target_view);
+    buffer->Release();
+
+    if (FAILED(hr))
+        return false;
+
     return true;
 }
 
@@ -37,6 +49,12 @@ bool SwapChain::release()
 {
     p_swap_chain->Release();
     delete this;
+    return true;
+}
+
+bool SwapChain::present(bool vsync)
+{
+    p_swap_chain->Present(vsync, NULL);
     return true;
 }
 

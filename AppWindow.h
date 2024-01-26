@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "Graphics.h"
 #include "SwapChain.h"
+#include "DeviceContext.h"
 
 class AppWindow : public Window
 {
@@ -14,6 +15,6 @@ public:
 	void onDestroy() override;
 private:
 	//not IDXGI_SWAP_CHAIN
-	SwapChain *p_swap_chain;
+	SwapChain *p_swap_chain = nullptr;
 };
 

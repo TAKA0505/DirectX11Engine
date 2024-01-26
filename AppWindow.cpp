@@ -22,6 +22,9 @@ void AppWindow::onCreate()
 void AppWindow::onUpdate()
 {
 	Window::onUpdate();
+	float color[4] = { 0,1.f,0,1.f };
+	Graphics::Get()->getDeviceContext()->clearRenderTargetColor4f(p_swap_chain, color);
+	p_swap_chain->present(false);
 }
 
 void AppWindow::onDestroy()
